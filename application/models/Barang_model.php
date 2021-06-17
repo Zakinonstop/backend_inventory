@@ -43,7 +43,41 @@ class Barang_model extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('barang');
-        $this->db->where('id_barang', $id_barang);
+        $this->db->where('status_delete', 0);
         return $this->db->get();
     }
+
+    public function update_dataa($id_barang)
+    {
+        $data = [
+            'nama_barang' => $this->input->post('nama_barang'),
+            'deskripsi' => $this->input->post('deskripsi')
+        ];
+        $this->db->where('id_barang', $id_barang);
+        $this->db->update('barang', $data);
+    }
+
+    public function hapus_data($id_barang)
+    {
+        $this->db->where('id_barang', $id_barang);
+        $this->db->delete('barang');
+    }
+
+    public function soft_delete_data($id_barang)
+    {
+        $data = array(
+            'status_delete' => 1
+        );
+
+        $this->db->where('id_barang', $id_barang);
+        $this->db->delete('barang', $data);
+    }
+
+    // public function get_barang()
+    // {
+    //     $this->db->select('*');
+    //     $this->db->from('barang');
+    //     $this->db->where('status_barang', 0);
+    //     return $this->db->get();
+    // }
 }
